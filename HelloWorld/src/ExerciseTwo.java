@@ -1,110 +1,95 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class ExerciseTwo {
 
 
-    static int blackJack(int inputBJIntegerOne, int inputBJIntegerTwo) {
-        int result;
-        if (inputBJIntegerOne > 21 && inputBJIntegerTwo > 21) {
-            result = 0;
-        } else {
-            if (inputBJIntegerOne > 21) {
-                result = inputBJIntegerTwo;
-            } else if (inputBJIntegerTwo > 21) {
-                result = inputBJIntegerOne;
-            } else {
-                if (inputBJIntegerOne > inputBJIntegerTwo) {
-                    result = inputBJIntegerOne;
-                } else {
-                    result = inputBJIntegerTwo;
-                }
-            }
-        }
-        return result;
+    static void blackJack(int inputBJIntegerOne, int inputBJIntegerTwo) {
+        BlackJack blackJack = new BlackJack();
+        System.out.println(blackJack.doBlackJack(inputBJIntegerOne, inputBJIntegerTwo));
     }
 
 
-    static int uniqueSum(int inputUniqueSumIntegerOne, int inputUniqueSumIntegerTwo, int inputUniqueSumIntegerThree) {
-        int result;
-        if (inputUniqueSumIntegerOne == inputUniqueSumIntegerTwo) {
-            if (inputUniqueSumIntegerOne == inputUniqueSumIntegerThree) {
-                result = 0;
-            } else {
-                result = inputUniqueSumIntegerThree;
-            }
-        } else {
-            if (inputUniqueSumIntegerOne == inputUniqueSumIntegerThree) {
-                result = inputUniqueSumIntegerTwo;
-            } else if (inputUniqueSumIntegerTwo == inputUniqueSumIntegerThree) {
-                result = inputUniqueSumIntegerOne;
-            } else {
-                result = inputUniqueSumIntegerOne + inputUniqueSumIntegerTwo + inputUniqueSumIntegerThree;
-            }
-        }
-        return result;
+    static void uniqueSum(int inputUniqueSumIntegerOne, int inputUniqueSumIntegerTwo, int inputUniqueSumIntegerThree) {
+        UniqueSum uniqueSum = new UniqueSum();
+        System.out.println(uniqueSum.doUniqueSum(inputUniqueSumIntegerOne, inputUniqueSumIntegerTwo, inputUniqueSumIntegerThree));
     }
 
 
-    static boolean tooHot(int temperature, boolean isSummer) {
-        boolean result;
-
-        int lowerLimit = 60;
-        int higherLimit = 90;
-        if (isSummer) {
-            higherLimit = 100;
-        }
-
-        if (temperature > lowerLimit && temperature < higherLimit) {
-            result = true;
-        } else {
-            result = false;
-
-        }
-        return result;
+    static void tooHot(int temperature, boolean isSummer) {
+        TooHot tooHot = new TooHot();
+        System.out.println(tooHot.doTooHot(temperature, isSummer));
     }
 
 
 
 
-    static void calculatePaint(int roomSize) {
-        ArrayList<Paint> paintz = new ArrayList<Paint>();
-        paintz.add(new Paint("CheapoMax", 20, 19.99, 10));
-        paintz.add(new Paint("AverageJoes", 15, 17.99, 11));
-        paintz.add(new Paint("DuluxourousPaints", 10, 25, 20));
-
-        System.out.println("Painty");
+    static void calculatePaint() {
+        int roomSize = 10;
         PaintWizard paintWizard = new PaintWizard();
-        for (int i = 0; i < paintz.size(); i++) {
-            System.out.println(paintz.get(i).name+ " " +paintWizard.paintWasted(paintz.get(i), roomSize));
+        paintWizard.addPaint("CheapoMax",20, 19.99, 10);
+        paintWizard.addPaint("AverageJoes",15, 17.99, 11);
+        paintWizard.addPaint("DuluxourousPaints",10, 25.0, 20);
+        ArrayList<Double> paintCosts = new ArrayList<Double>();
+
+        System.out.println("Painty for a room of size "+roomSize+"m2");
+        for (int i = 0; i < paintWizard.paintz.size(); i++) {
+            System.out.println(paintWizard.paintz.get(i).name+ " " +paintWizard.paintWasted(paintWizard.paintz.get(i), roomSize));
+            paintCosts.add(paintWizard.totalCost);
         }
+
+        int index = 0;
+        Double minPrice = (Double)paintCosts.get(index);
+        for (int i = 0; i < paintCosts.size(); i++) {
+            Double item = (Double)paintCosts.get(i);
+            if (item.compareTo(minPrice) < 0) {
+                index = i;
+                minPrice = item;
+            }
+        }
+        System.out.println("Cheapest is " + paintWizard.paintz.get(index));
     }
 
+    static void garage() {
+        Garage newGarage = new Garage();
+        newGarage.addVehicle(new Car(12, "bmw", "car", 14));
+        newGarage.addVehicle(new Car(12, "bmw", "car", 15));
+        newGarage.addVehicle(new MotorCycle(12, "bmw", "red", "bike", 16));
+        newGarage.addVehicle(new MotorCycle(12, "car1", "red", "bike", 17));
+        newGarage.addVehicle(new Car(12, "car1", "car", 18));
+        newGarage.addVehicle(new Car(12, "car1", "car", 19));
 
+        System.out.println(newGarage.vehiclez.size());
+
+        int removeId = 15;
+        System.out.println("After removal of ID: " + removeId);
+        newGarage.removeVehicleById(removeId);
+        System.out.println(newGarage.vehiclez.size());
+
+        String removeByType = "car";
+        System.out.println("Remove by type: " + removeByType);
+        //newGarage.removeVehicleByType(removeByType);
+        System.out.println(newGarage.vehiclez.size());
+
+        int findBillForId = 16;
+        System.out.println("The bill for ID: "+ findBillForId + " is: £" + newGarage.calculateBill(findBillForId));
+
+
+        System.out.println("After clear");
+        //newGarage.clearVehicles();
+        System.out.println(newGarage.vehiclez.size());
+    }
 
     static void workingWithFiles() {
-        ArrayList<Person> peopleFiles = new ArrayList<Person>();
-        peopleFiles.add(new Person("b", 12, "programer1"));
-        peopleFiles.add(new Person("bo", 13, "programer2"));
-        peopleFiles.add(new Person("bob", 14, "programer3"));
-        peopleFiles.add(new Person("bobb", 15, "programer4"));
-        peopleFiles.add(new Person("bobby", 16, "programer5"));
-
-
-        for (Person p : peopleFiles) {
-            String line = p.name + ", " + p.age + ", " + p.jobTitle + ".";
-            try {
-                BufferedWriter out = new BufferedWriter(new FileWriter("file123.txt"));
-                out.write(line + "\n");
-                out.close();
-            } catch (IOException e) {}
-        }
-
-
-
+        WorkingWithFiles workingWithFiles = new WorkingWithFiles();
+        String fileName = "file123.txt";
+        workingWithFiles.addPerson("b", 23, "builder1");
+        workingWithFiles.addPerson("bo", 24, "builder2");
+        workingWithFiles.addPerson("bb", 25, "builder3");
+        workingWithFiles.addPerson("bobb", 26, "builder4");
+        workingWithFiles.addPerson("bobby", 27, "builder5");
+        workingWithFiles.outPutFile(workingWithFiles.peopleFiles, fileName);
+        System.out.println(workingWithFiles.createNewPersonArray(fileName));
     }
 
 
@@ -114,20 +99,21 @@ public class ExerciseTwo {
         int secondBJInteger = 5;
         System.out.println("");
         System.out.print("blackJack(" + firstBJInteger + ", " + secondBJInteger + ") -> ");
-        System.out.println(blackJack(firstBJInteger, secondBJInteger));
+        blackJack(firstBJInteger, secondBJInteger);
+
 
         int firstUniqueSumInteger = 22;
         int secondUniqueSumInteger = 6;
         int thirdUniqueSumInteger = 5;
         System.out.println("");
         System.out.print("uniqueSum(" + firstUniqueSumInteger + ", " + secondUniqueSumInteger + ", " + thirdUniqueSumInteger + ") -> ");
-        System.out.println(uniqueSum(firstUniqueSumInteger, secondUniqueSumInteger, thirdUniqueSumInteger));
+        uniqueSum(firstUniqueSumInteger, secondUniqueSumInteger, thirdUniqueSumInteger);
 
         int temperature = 64;
         boolean isSummer = false;
         System.out.println("");
         System.out.print("tooHot(" + temperature + ", " + isSummer + ") -> ");
-        System.out.println(tooHot(temperature, isSummer));
+        tooHot(temperature, isSummer);
 
         ArrayList<Person> people = new ArrayList<Person>();
         people.add(new Person("bob", 12, "programer"));
@@ -147,46 +133,14 @@ public class ExerciseTwo {
             }
         }
 
-        ArrayList<Vehicle> vehiclez = new ArrayList<Vehicle>();
-        vehiclez.add(new Car(12, "car1", "car", 15));
-        vehiclez.add(new MotorCycle(12, "car1", "red", "bike", 16));
-        vehiclez.add(new MotorCycle(12, "car1", "red", "bike", 17));
-        vehiclez.add(new Car(12, "car1", "car", 18));
-        vehiclez.add(new Car(12, "car1", "car", 19));
-
-        System.out.println(vehiclez.size());
-
-        System.out.println("After removal ");
-        Garage newGarage = new Garage(vehiclez);
-        //newGarage.removeVehicleById(15);
-        System.out.println(vehiclez.size());
-
-
-        System.out.println("After clear ");
-        //newGarage.clearVehicles();
-        System.out.println(vehiclez.size());
 
 
 
-        //newGarage.addVehicle(18, "car1", "car", 19 );
-        System.out.println(vehiclez.size());
+        garage();
 
-        System.out.println("remove bioke ");
+        calculatePaint();
 
-        newGarage.removeVehicleByType("car");
-        System.out.println(vehiclez.size());
-
-
-
-        System.out.println("bill iz: £" + newGarage.calculateBill(16) + " for ID: "+16);
-
-
-        calculatePaint(12);
-
-
-
-
-
+        workingWithFiles();
 
 
     }

@@ -43,5 +43,10 @@ public class Paint {
     public void setVolume(int volume) {
         this.volume = volume;
     }
+
+    @Override
+    public String toString() {
+        return name + " £" + price + " vol: " + volume + "m2";
+    }
 }
 
